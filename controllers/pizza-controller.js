@@ -5,6 +5,13 @@ const pizzaController = {
   // get all pizzas
   getAllPizza(req, res) {
     Pizza.find({})
+      //.populate() returns the comment info instead of just the id
+      .populate({
+        path: 'comments',
+        select: '-__v', //the '-' sign means we don't care about the __v, so it wont return it
+      })
+      .select('-__v')
+      .sort({ _id: -1 }) // return the items sorted in descending order by the _id value
       .then((dbPizzaData) => res.json(dbPizzaData))
       .catch((err) => {
         console.log(err);
@@ -15,6 +22,10 @@ const pizzaController = {
   getPizzaById({ params }, res) {
     // we can destructure the params out of the req
     Pizza.findOne({ _id: params.id })
+      .populate({
+        path: 'comments',
+        select: '-__v',
+      })
       .then((dbPizzaData) => {
         if (!dbPizzaData) {
           res.status(404).json({ message: 'No pizza found with this id!' });
