@@ -52,7 +52,10 @@ const pizzaController = {
   // There are also Mongoose and MongoDB methods called .updateOne() and .updateMany(), which update documents without returning them.
   // update a pizza by id
   updatePizza({ params, body }, res) {
-    Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true }) // 'new: true' will return the new updated document. if set false, it'll send the original
+    Pizza.findOneAndUpdate({ _id: params.id }, body, {
+      new: true, // 'new: true' will return the new updated document. if set false, it'll send the original
+      runValidators: true, // runvalidators will execute our validators upon submission of data
+    })
       .then((dbPizzaData) => {
         if (!dbPizzaData) {
           res.status(404).josn({ message: 'No pizza found with this id' });

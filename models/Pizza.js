@@ -6,9 +6,13 @@ const PizzaSchema = new Schema(
   {
     pizzaName: {
       type: String, //here we use the built in javascript datatype
+      required: true,
+      trim: true,
     },
     createdBy: {
       type: String,
+      required: true,
+      trim: true,
     },
     createdAt: {
       type: Date,
@@ -17,6 +21,8 @@ const PizzaSchema = new Schema(
     },
     size: {
       type: String,
+      required: true,
+      enum: ['Personal', 'Small', 'Medium', 'Large', 'Extra Large'],
       default: 'Large',
     },
     toppings: [], //could also specify 'Array' instead
